@@ -1,0 +1,9 @@
+Library
+obj
+Packages
+Temp
+.vs
+*.sln
+*.csproj
+Pack
+doc
