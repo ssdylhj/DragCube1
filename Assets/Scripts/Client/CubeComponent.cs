@@ -18,6 +18,12 @@ namespace DrugCube.Client
         private Image Image;
         [SerializeField]
         private SpriteRef Refs;
+        public Animator Animator { get; private set; }
+
+        private void Awake()
+        {
+            this.Animator = this.Image.gameObject.GetComponent<Animator>();
+        }
 
         public int Row
         {

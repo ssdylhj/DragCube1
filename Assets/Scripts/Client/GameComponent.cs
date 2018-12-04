@@ -91,18 +91,30 @@ namespace DrugCube.Client
 
         private void DragMove(Vector2 pos)
         {
-            var delta = pos - this.LastPos.Value;
+            var delta = this.ClampDelta(pos - this.LastPos.Value);
             this.LastPos = pos;
                
-            if (this.DragDirection == HDirection.Horizon)
-                delta.y = 0;
-            else if (this.DragDirection == HDirection.Vertical)
-                delta.x = 0;
-
             foreach (var dc in this.DragCubes)
             {
                 dc.Move(delta);
             }
+        }
+
+        private Vector2 ClampDelta(Vector2 delta)
+        {
+            if (this.DragDirection == HDirection.Horizon)
+            {
+                delta.y = 0;
+                delta.x = Mathf.Abs(delta.x) < 5 ? delta.x : Mathf.Sign(delta.x) * 5;
+
+            }
+            else if (this.DragDirection == HDirection.Vertical)
+            {
+                delta.x = 0;
+                delta.y = Mathf.Abs(delta.y) < 5 ? delta.y : Mathf.Sign(delta.y) * 5;
+            }
+
+            return delta;
         }
 
         private void InitCubeBeDrag(int r, int c, HDirection direct)
@@ -144,7 +156,7 @@ namespace DrugCube.Client
             this.LastPos = null;
             this.DragDirection = HDirection.None;
             this.DelCubes();
-            this.Refresh();
+            //this.Refresh();
         }
 
         private void LogicMove(Direct direct, int r, int c)
@@ -176,6 +188,27 @@ namespace DrugCube.Client
                     newCubes[c].Add(cube);
                 }
             );
+
+            this.ShowAnimation();
+        }
+
+        private float? animationTime = null;
+        private void ShowAnimation()
+        {
+            foreach (var kvp in delCubePoses)
+            {
+                foreach (var r in kvp.Value)
+                {
+                    this.animationTime = 1f;
+                    var cc = this.GetCube(r, kvp.Key);
+                    cc.Animator.SetTrigger("Dispear");
+                }
+            }
+
+            foreach (var kvp in newCubes)
+                foreach(var c in kvp.Value)
+                Debug.Log(string.Format("new cube {0} be created!", c));
+
         }
 
         private void CollectDelInfo(int r, int c, Cube cube)
@@ -225,6 +258,25 @@ namespace DrugCube.Client
             Pos.y = -r * CubeComponent.kCubeHeight;
 
             return Pos;
+        }
+
+        private CubeComponent GetCube(int r, int c)
+        {
+            var idx = this.Panel.Col * r + c;
+            return this.cubes[idx];
+        }
+
+        private void Update()
+        {
+            if (!this.animationTime.HasValue)
+                return;
+
+            this.animationTime = this.animationTime.Value - Time.deltaTime;
+            if (this.animationTime.Value <=0)
+            {
+                this.animationTime = null;
+                this.Refresh();
+            }
         }
     }
 }
