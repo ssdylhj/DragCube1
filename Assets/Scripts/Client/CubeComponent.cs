@@ -9,7 +9,7 @@ using DragCube.Client;
 
 namespace DrugCube.Client
 {
-    public class CubeComponent : MonoBehaviour, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler,IEndDragHandler
+    public class CubeComponent : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler,IEndDragHandler
     {
         public const int kCubeWidth  = 32;
         public const int kCubeHeight = 32;
@@ -113,15 +113,6 @@ namespace DrugCube.Client
         public Action<Vector2> OnDown;
         public Action OnUp;
 
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            Vector2 localPos = this.transform.InverseTransformPoint(eventData.position);
-            var dir = localPos.ToDirection();
-
-            //OnDrag.Invoke(this.Row, this.Col, dir);
-        }
-
-        private Vector2 DownPosition = Vector2.zero;
         public void OnPointerDown(PointerEventData eventData)
         {
             OnDown.Invoke(eventData.position);

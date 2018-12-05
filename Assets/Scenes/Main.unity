@@ -132,7 +132,6 @@ GameObject:
   m_Component:
   - component: {fileID: 433002979}
   - component: {fileID: 433002977}
-  - component: {fileID: 433002978}
   m_Layer: 0
   m_Name: Panel
   m_TagString: Untagged
@@ -152,29 +151,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CubeOb: {fileID: 213866063}
---- !u!114 &433002978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 433002976}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -2095666955, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_StartCorner: 0
-  m_StartAxis: 0
-  m_CellSize: {x: 30, y: 30}
-  m_Spacing: {x: 0, y: 0}
-  m_Constraint: 0
-  m_ConstraintCount: 2
 --- !u!224 &433002979
 RectTransform:
   m_ObjectHideFlags: 0

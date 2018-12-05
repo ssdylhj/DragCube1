@@ -26,13 +26,6 @@ namespace DrugCube.Client
 
         private void Init()
         {
-            var RectTransform = this.GetComponent<RectTransform>();
-            var GridLayoutGroup = this.GetComponent<GridLayoutGroup>();
-            var sizeDelta = Vector2.zero;
-
-            sizeDelta.x = this.Panel.Col * GridLayoutGroup.cellSize.x;
-            sizeDelta.y = this.Panel.Row * GridLayoutGroup.cellSize.y;
-            RectTransform.sizeDelta = sizeDelta;
             var w = CubeComponent.kCubeWidth * this.Panel.Col;
             var h = CubeComponent.kCubeHeight * this.Panel.Row;
 
@@ -142,9 +135,9 @@ namespace DrugCube.Client
                 if (this.DragDirection == HDirection.None)
                     break;
                 else if (this.DragDirection == HDirection.Horizon)
-                    moveCount = Mathf.FloorToInt(Mathf.Abs(distance.x) / CubeComponent.kCubeWidth + 0.5f);
+                    moveCount = Mathf.FloorToInt(Mathf.Abs(distance.x) / CubeComponent.kCubeWidth);
                 else if (this.DragDirection == HDirection.Vertical)
-                    moveCount = Mathf.FloorToInt(Mathf.Abs(distance.y) / CubeComponent.kCubeHeight + 0.5f);
+                    moveCount = Mathf.FloorToInt(Mathf.Abs(distance.y) / CubeComponent.kCubeHeight);
 
                 for (var i = 0; i < moveCount; ++i)
                     this.LogicMove(distance.ToDirection(), r, c);
@@ -208,7 +201,6 @@ namespace DrugCube.Client
             foreach (var kvp in newCubes)
                 foreach(var c in kvp.Value)
                 Debug.Log(string.Format("new cube {0} be created!", c));
-
         }
 
         private void CollectDelInfo(int r, int c, Cube cube)
@@ -275,6 +267,7 @@ namespace DrugCube.Client
             if (this.animationTime.Value <=0)
             {
                 this.animationTime = null;
+                this.DelCubes();
                 this.Refresh();
             }
         }
